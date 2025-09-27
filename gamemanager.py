@@ -4,11 +4,11 @@ from paint import *
 
 attack_end = False
 attack_end_timer = 0.0
-gunman = Character([[load_image('hope01_01.png'), load_image('hope01_02.png')],
-                        [load_image('hope01_03.png'), load_image('hope01_04.png')],
-                        [load_image('hope01_05.png'), load_image('hope01_06.png'), load_image('hope01_07.png')]],
-                       600, 400)
-
+gunman = Character([
+    [load_image(f'source\\hope01_0{i}.png') for i in range(1, 3)],
+    [load_image(f'source\\hope01_0{i}.png') for i in range(3, 5)],
+    [load_image(f'source\\hope01_0{i}.png') for i in range(5, 8)]
+],600, 400) #컴프리헨션 사용
 
 def GameUpdate(dt):
     global attack_end, attack_end_timer
