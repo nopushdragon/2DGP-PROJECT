@@ -7,6 +7,7 @@ def MapDraw(dt):
 
 def ObjectDraw(dt):
     clear_canvas()
+    gamemanager.hometown.draw()
     gamemanager.gunman.draw(dt)
     for b in gamemanager.bullet:
         b.draw()

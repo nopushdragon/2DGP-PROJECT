@@ -12,6 +12,7 @@ gunman = Character([
     [load_image(f'source\\hope01_0{i}.png') for i in range(5, 8)]
 ],WIDTH/2, HEIGHT/2) #컴프리헨션 사용
 bullet = []
+hometown = BackGround(load_image('source\\bg_tile_chapter_01_01.png'),WIDTH/2,HEIGHT/2,960,800)
 
 prev_time = get_time()
 def DeltaTime():
@@ -29,6 +30,11 @@ def GameUpdate(dt):
         b.update(dt)
         if not b.visible:
             bullet.remove(b)
+
+    if gunman.flip == False and gunman.state == "walk":
+        hometown.move(-200*dt)
+    elif gunman.flip == True and gunman.state == "walk":
+        hometown.move(200*dt)
 
     
 def InputKey():
@@ -73,7 +79,7 @@ def Shoot():
     global bullet
     bullet.append(Projectile([load_image(f'source\\40241_s2_0{i}.png') for i in range(1, 5)],
                   gunman.x + 100 - (200*(int)(gunman.flip)), gunman.y - 30, 122, 66,
-                  500,0,0.0, 0.5, gunman.flip, True))
+                  500,0,0.0, 0.1, gunman.flip, True))
     
 
 def main():

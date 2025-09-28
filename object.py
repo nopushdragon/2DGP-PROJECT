@@ -1,4 +1,4 @@
-from gamemanager import *
+import gamemanager
 
 class Character:
     def __init__(self, anime, x, y, frame=0,frameTimer = 0.0, state = "idle",flip = False):   #anime[0] = idle, anime[1] = walk, anime[2] = attack
@@ -58,7 +58,7 @@ class Projectile:
 
             if self.flip == False:
                 self.x += self.speed * dt
-                if self.x > 1200:
+                if self.x > gamemanager.WIDTH:
                     self.visible = False
             elif self.flip == True:
                 self.x -= self.speed * dt
@@ -67,12 +67,33 @@ class Projectile:
 
             if self.frameTimer >= self.waitTime:
                 self.frameTimer = 0.0
-                if self.frame < len(self.anime) - 1:
-                    self.frame += 1
+                '''if self.frame < len(self.anime) - 1:
+                    self.frame += 1'''
+                self.frame = (self.frame + 1) % len(self.anime)
 
     def draw(self):
         if self.visible:
             if self.flip == False:
-                self.anime[self.frame].clip_draw(0, 0, self.width, self.height, self.x, self.y, 100, 100)
+                self.anime[self.frame].clip_draw(0, 0, self.width, self.height, self.x, self.y, 100, 30)
             elif self.flip == True:
-                self.anime[self.frame].clip_composite_draw(0, 0, self.width, self.height, 0, 'h', self.x, self.y, 100, 100)
+                self.anime[self.frame].clip_composite_draw(0, 0, self.width, self.height, 0, 'h', self.x, self.y, 100, 30)
+
+class BackGround:
+    def __init__(self, image, x, y,width, height):
+        self.image = image
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+
+    def draw(self):
+        self.image.clip_draw(0, 0, self.width, self.height, self.x, self.y)
+        self.image.clip_draw(0, 0, self.width, self.height, self.x - self.width, self.y)
+        self.image.clip_draw(0, 0, self.width, self.height, self.x + self.width, self.y)
+
+    def move(self, mx):
+        self.x += mx
+        if self.x > gamemanager.WIDTH:
+            self.x += -self.width
+        elif self.x < 0:
+            self.x += self.width
