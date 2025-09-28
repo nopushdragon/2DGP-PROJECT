@@ -1,4 +1,4 @@
-import gamemanager
+from gamemanager import main
 
 if __name__ == '__main__':
-    gamemanager.main()
+    main()
