@@ -1,19 +1,15 @@
 WIDTH = 1200
 HEIGHT = 800
 
-from character import *
+from pico2d import *
+open_canvas(WIDTH, HEIGHT)
 from background import *
 from projectile import *
-from pico2d import *
 from paint import *
+from character import characters
 
-open_canvas(WIDTH, HEIGHT)
+gunman = characters[0]
 
-gunman = Character([
-    [load_image(f'source\\character\\hope01_0{i}.png') for i in range(1, 3)],
-    [load_image(f'source\\character\\hope01_0{i}.png') for i in range(3, 5)],
-    [load_image(f'source\\character\\hope01_0{i}.png') for i in range(5, 8)]
-],WIDTH/2, HEIGHT/2, []) #컴프리헨션 사용
 hometown = BackGround(load_image('source\\background\\bg_tile_chapter_01_01.png'),WIDTH/2,HEIGHT/2,960,800)
 
 prev_time = get_time()
@@ -37,7 +33,7 @@ def GameUpdate(dt):
     elif gunman.flip == True and gunman.state == "walk":
         hometown.move(200*dt)
 
-    
+
 def InputKey():
     events = get_events()
     if not gunman.state == "attack":
@@ -58,7 +54,7 @@ def InputKey():
             elif event.type == SDL_KEYUP:
                 if event.key == SDLK_LEFT and gunman.flip == True or event.key == SDLK_RIGHT and gunman.flip == False:
                     gunman.state = "idle"
-                    
+
 shootMotionEnd = False
 shootMotionEndTimer = 0.0
 def WaitForShoot(dt):
@@ -74,13 +70,7 @@ def WaitForShoot(dt):
             gunman.frame = 0
             gunman.state = "idle"
             shootMotionEnd = False
-            Shoot()
-
-def Shoot():
-    gunman.projectile.append(Projectile([load_image(f'source\\projectile\\40241_s2_0{i}.png') for i in range(1, 5)],
-                  gunman.x + 100 - (200*(int)(gunman.flip)), gunman.y - 30, 122, 66,
-                  500,0,0.0, 0.1, gunman.flip, True))
-    
+            gunman.Shoot()
 
 def main():
     while (True):
