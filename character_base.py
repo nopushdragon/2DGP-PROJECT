@@ -1,7 +1,7 @@
 
 class Character:
-    def __init__(self, anime, x, y, projectile, status = None,frame=0, frameTimer=0.0, state="idle",
-             flip=False):  # anime[0] = idle, anime[1] = walk, anime[2] = attack
+    def __init__(self, anime, x, y, projectile, status = None,frame=0, frameTimer=0.0, state="idle", flip=False):
+                     # anime[0] = idle, anime[1] = walk, anime[2] = attack
         self.anime = anime
         self.x = x
         self.y = y
