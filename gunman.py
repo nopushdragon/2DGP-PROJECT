@@ -1,13 +1,12 @@
-from gamemanager import WIDTH, HEIGHT
 from pico2d import load_image
-from character_base import Character
+from character_base import *
 from projectile import Projectile
 
 gunman = Character([
     [load_image(f'source\\character\\hope01_0{i}.png') for i in range(1, 3)],
     [load_image(f'source\\character\\hope01_0{i}.png') for i in range(3, 5)],
     [load_image(f'source\\character\\hope01_0{i}.png') for i in range(5, 8)]
-], WIDTH/2, HEIGHT/2, [])
+], 600, 400, [])
 
 def shoot_override(self):
     self.projectile.append(

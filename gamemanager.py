@@ -7,8 +7,10 @@ from background import *
 from projectile import *
 from paint import *
 from character import characters
+import time
 
 gunman = characters[0]
+gunman.status = {"hp": 100, "atk": 50, "speed": 100}  # hp, attack, speed
 
 hometown = BackGround(load_image('source\\background\\bg_tile_chapter_01_01.png'),WIDTH/2,HEIGHT/2,960,800)
 
@@ -22,7 +24,7 @@ def DeltaTime():
 
 def GameUpdate(dt):
     InputKey()
-    WaitForShoot(dt)
+    gunman.Update(dt)
     for b in gunman.projectile[::-1]:
         b.update(dt)
         if not b.visible:
@@ -55,29 +57,16 @@ def InputKey():
                 if event.key == SDLK_LEFT and gunman.flip == True or event.key == SDLK_RIGHT and gunman.flip == False:
                     gunman.state = "idle"
 
-shootMotionEnd = False
-shootMotionEndTimer = 0.0
-def WaitForShoot(dt):
-    global shootMotionEnd, shootMotionEndTimer
-
-    if gunman.state == "attack" and gunman.frame == len(gunman.anime[2]) - 1:
-        shootMotionEnd = True
-
-    if shootMotionEnd:
-        shootMotionEndTimer += dt
-        if shootMotionEndTimer >= 0.1:
-            shootMotionEndTimer = 0.0
-            gunman.frame = 0
-            gunman.state = "idle"
-            shootMotionEnd = False
-            gunman.Shoot()
-
 def main():
-    while (True):
+    while True:
+        start = time.time()
         dt = DeltaTime()
+
         GameUpdate(dt)
 
         MapDraw(dt)
         ObjectDraw(dt)
-
+        print(gunman.status)
+        elapsed = time.time() - start
+        time.sleep(max(0, 1 / 60 - elapsed))  # 60프레임 고정
     close_canvas()
